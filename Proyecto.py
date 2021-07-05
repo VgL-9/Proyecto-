@@ -1,14 +1,24 @@
 import matplotlib.pyplot as plt
-from numpy import mod
+from numpy import mod, true_divide
+
+def leer_archivo():
+    listaDeDato = []
+
+    with open("Datos.csv","r",encoding="utf-8") as f:
+        for i in f.readlines():
+            datos = i.split(",")
+            listaDeDato.append(datos)
+
+    return listaDeDato
+
+listaDeDato = leer_archivo()
 
 def listaComunasUsuario():
-    with open("Datos.csv","r",encoding="utf-8") as f:
-        comunasListadoUsuario= []
-        for i in f.readlines():
-            linea = i.split(",")
-            if linea[2] != "Comuna" and len(linea[9])>0:
-                comunaFormato = linea[2] + "(" + linea[3] + ")"
-                comunasListadoUsuario.append(comunaFormato)
+    comunasListadoUsuario= []
+    for i in listaDeDato:
+        if i[2] != "Comuna" and len(i[9])>0:
+            comunaFormato = i[2] + "(" + i[3] + ")"
+            comunasListadoUsuario.append(comunaFormato)
     formato = ""
     count = 0
     for i in range(len(comunasListadoUsuario)):
@@ -22,21 +32,17 @@ def listaComunasUsuario():
             formato = ""
 
 def listaComunasValidacion():
-    with open("Datos.csv","r",encoding="utf-8") as f:
-        listaParaValidacionComunas = []
-        for i in f.readlines():
-            linea = i.split(",")
-            if linea[2] != "Comuna" and len(linea[3])>0:
-                listaParaValidacionComunas.append(linea[2])
-                listaParaValidacionComunas.append(linea[3])
+    listaParaValidacionComunas = []
+    for i in listaDeDato:
+        if i[2] != "Comuna" and len(i[3])>0:
+            listaParaValidacionComunas.append(i[2])
+            listaParaValidacionComunas.append(i[3])
     return listaParaValidacionComunas
 
 def filtroDatosComuna(comuna):
-    with open("Datos.csv","r",encoding="utf-8") as f:
-        for i in f.readlines():
-            linea = i.split(",")
-            if comuna in linea:
-                datoFiltrado = []
-                for count in range(len(linea)-9,len(linea)-1):
-                    datoFiltrado.append(int(float(linea[count])))
+    for i in listaDeDato:
+        if comuna in i:
+            datoFiltrado = []
+            for count in range(len(i)-9,len(i)-1):
+                datoFiltrado.append(int(float(i[count])))
     return datoFiltrado
