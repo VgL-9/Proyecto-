@@ -1,21 +1,16 @@
 import matplotlib.pyplot as plt
 from numpy import mod, true_divide
 
+listaDeDatos = []
 def leer_archivo():
-    listaDeDato = []
-
     with open("Datos.csv","r",encoding="utf-8") as f:
         for i in f.readlines():
             datos = i.split(",")
-            listaDeDato.append(datos)
-
-    return listaDeDato
-
-listaDeDato = leer_archivo()
+            listaDeDatos.append(datos)
 
 def listaComunasUsuario():
     comunasListadoUsuario= []
-    for i in listaDeDato:
+    for i in listaDeDatos:
         if i[2] != "Comuna" and len(i[9])>0:
             comunaFormato = i[2] + "(" + i[3] + ")"
             comunasListadoUsuario.append(comunaFormato)
@@ -33,19 +28,20 @@ def listaComunasUsuario():
 
 def listaComunasValidacion():
     listaParaValidacionComunas = []
-    for i in listaDeDato:
+    for i in listaDeDatos:
         if i[2] != "Comuna" and len(i[3])>0:
             listaParaValidacionComunas.append(i[2])
             listaParaValidacionComunas.append(i[3])
     return listaParaValidacionComunas
 
 def filtroDatosComuna(comuna):
-    for i in listaDeDato:
+    for i in listaDeDatos:
         if comuna in i:
             datoFiltrado = []
             for count in range(len(i)-9,len(i)-1):
                 datoFiltrado.append(int(float(i[count])))
     return datoFiltrado
+
 def datoComunaNoAcumulado(datoFiltrado):
     listaDatoNoAcumulado = []
     for i in range(1,len(datoFiltrado)):
@@ -53,33 +49,29 @@ def datoComunaNoAcumulado(datoFiltrado):
         listaDatoNoAcumulado.append(int(operacion))
     return listaDatoNoAcumulado        
 
-
 def listaRegionesUsuario():
-    with open("Datos.csv","r",encoding="utf-8") as f:
-        regionListadoUsuario = []
-        for i in f.readlines():
-            linea = i.split(",")
-            formato = linea[0] + "[" + linea[1] + "]"
-            if formato not in regionListadoUsuario and linea[0] != "Region":
-                regionListadoUsuario.append(formato)
+    regionListadoUsuario = []
+    for i in listaDeDatos:
+        formato = i[0] + "[" + i[1] + "]"
+        if formato not in regionListadoUsuario and i[0] != "Region":
+            regionListadoUsuario.append(formato)
     for region in regionListadoUsuario:
         print(f"-{region}")
 
 def listaRegionValidacion():
-    with open("Datos.csv","r",encoding="utf-8") as f:  
-        listaParaValidacionRegion = []
-        for i in f.readlines():
-            linea = i.split(",") 
-            if linea[0] not in listaParaValidacionRegion and linea[0] != "Region":
-                listaParaValidacionRegion.append(linea[0])
-                listaParaValidacionRegion.append(linea[1])
+    listaParaValidacionRegion = []
+    for i in listaDeDatos:
+        if i[0] not in listaParaValidacionRegion and i[0] != "Region":
+            listaParaValidacionRegion.append(i[0])
+            listaParaValidacionRegion.append(i[1])
     return listaParaValidacionRegion
 
 def filtroRegion(region):
-    with open("Datos.csv","r",encoding="utf-8") as f:
-        filtrada = []
-        for i in f.readlines():
-            linea = i.split(",")
-            if region in linea:   # Compruebo si el datodefiltro el cual seria region esta en la lista para asi solo obtener las que coincidan
-                filtrada.append(linea)
+    filtrada = []
+    for i in listaDeDatos:
+        if region in i:   # Compruebo si el datodefiltro el cual seria region esta en la lista para asi solo obtener las que coincidan
+            filtrada.append(i)
     return filtrada
+
+
+leer_archivo()
