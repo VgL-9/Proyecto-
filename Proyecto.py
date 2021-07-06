@@ -46,3 +46,40 @@ def filtroDatosComuna(comuna):
             for count in range(len(i)-9,len(i)-1):
                 datoFiltrado.append(int(float(i[count])))
     return datoFiltrado
+def datoComunaNoAcumulado(datoFiltrado):
+    listaDatoNoAcumulado = []
+    for i in range(1,len(datoFiltrado)):
+        operacion = datoFiltrado[i] - datoFiltrado[i-1]
+        listaDatoNoAcumulado.append(int(operacion))
+    return listaDatoNoAcumulado        
+
+
+def listaRegionesUsuario():
+    with open("Datos.csv","r",encoding="utf-8") as f:
+        regionListadoUsuario = []
+        for i in f.readlines():
+            linea = i.split(",")
+            formato = linea[0] + "[" + linea[1] + "]"
+            if formato not in regionListadoUsuario and linea[0] != "Region":
+                regionListadoUsuario.append(formato)
+    for region in regionListadoUsuario:
+        print(f"-{region}")
+
+def listaRegionValidacion():
+    with open("Datos.csv","r",encoding="utf-8") as f:  
+        listaParaValidacionRegion = []
+        for i in f.readlines():
+            linea = i.split(",") 
+            if linea[0] not in listaParaValidacionRegion and linea[0] != "Region":
+                listaParaValidacionRegion.append(linea[0])
+                listaParaValidacionRegion.append(linea[1])
+    return listaParaValidacionRegion
+
+def filtroRegion(region):
+    with open("Datos.csv","r",encoding="utf-8") as f:
+        filtrada = []
+        for i in f.readlines():
+            linea = i.split(",")
+            if region in linea:   # Compruebo si el datodefiltro el cual seria region esta en la lista para asi solo obtener las que coincidan
+                filtrada.append(linea)
+    return filtrada
