@@ -1,4 +1,7 @@
 import matplotlib.pyplot as plt
+import math
+import numpy as np
+from matplotlib import pyplot as plt
 from numpy import mod, true_divide
 
 listaDeDatos = []
@@ -73,5 +76,25 @@ def filtroRegion(region):
             filtrada.append(i)
     return filtrada
 
+def datosRegionAcumulado(filtrada):
+    listaDatosRegion = [0,0,0,0,0,0,0,0] # lista creada solo para ir sumando con los indices
+    for comuna in filtrada:
+        contador = 0 # es ocupado para obetener el indice de la lista donde estaran las sumas de todo
+        for i in range(len(comuna)-9,len(comuna)-1,1):  # Este for obtiene 8 datos ya que son necesario 8 datos para obtener el no acumulado si es necesario
+            listaDatosRegion[contador] = int(listaDatosRegion[contador] + float(comuna[i])) # voy sumando lo que ya estaba en la lista y el nuevo valor obtenido de la otra comuna
+            contador += 1
+        contador = 0 # reinicio valor para seguir con otra comuna
+
+    return listaDatosRegion
+
+def datosGraficoNoAcumuladoRegion(listaDatosRegion):
+    listaNoAcumulada = []
+
+    for i in range(1 , len(listaDatosRegion)): # Este for empieza en 1 ya que para obtener los casos totales de una region seria el valor anterior menos el nuevo
+        listaNoAcumulada.append(listaDatosRegion[i] - listaDatosRegion[i-1]) # Aqui hago la operacion y la ingreso a una lista
+
+    return listaNoAcumulada
+
+#def graficos(graficoY,Tipo):
 
 leer_archivo()
