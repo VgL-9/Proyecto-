@@ -73,5 +73,43 @@ def filtroRegion(region):
             filtrada.append(i)
     return filtrada
 
+def datosRegionAcumulado(filtrada):
+    listaDatosRegion = [0,0,0,0,0,0,0,0] # lista creada solo para ir sumando con los indices
+    for comuna in filtrada:
+        contador = 0 # es ocupado para obetener el indice de la lista donde estaran las sumas de todo
+        for i in range(len(comuna)-9,len(comuna)-1,1):  # Este for obtiene 8 datos ya que son necesario 8 datos para obtener el no acumulado si es necesario
+            listaDatosRegion[contador] = int(listaDatosRegion[contador] + float(comuna[i])) # voy sumando lo que ya estaba en la lista y el nuevo valor obtenido de la otra comuna
+            contador += 1
+        contador = 0 # reinicio valor para seguir con otra comuna
+    return listaDatosRegion
 
+def datosGraficoNoAcumuladoRegion(listaDatosRegion):
+    listaNoAcumulada = []
+    for i in range(1 , len(listaDatosRegion)): # Este for empieza en 1 ya que para obtener los casos totales de una region seria el valor anterior menos el nuevo
+        listaNoAcumulada.append(listaDatosRegion[i] - listaDatosRegion[i-1]) # Aqui hago la operacion y la ingreso a una lista
+    return listaNoAcumulada
+
+def listadoRegionesAnalisis():
+    listaRegionesAnalisis = []
+    for i in listaDeDatos:
+        if i[0] not in listaRegionesAnalisis and i[0] != "Region":
+            listaRegionesAnalisis.append(i[0])
+    return listaRegionesAnalisis
+
+def tasaRegion():
+    listaRegionesAnalisis = listadoRegionesAnalisis()
+    tasas = []
+    for region in listaRegionesAnalisis:
+        poblacion = 0
+        acumulado = 0
+        with open("Datos.csv","r",encoding="utf-8") as f:
+            for i in f.readlines():
+                linea = i.split(",")
+                if region in linea and len(linea[3])>0:
+                    poblacion += int(float(linea[4]))
+                    acumulado += int(float(linea[len(linea)-2]))
+        tasa = (acumulado/poblacion) * 100000
+        tasas.append(round(tasa,1))
+    return tasas,listaRegionesAnalisis
+    
 leer_archivo()
