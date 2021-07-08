@@ -112,4 +112,96 @@ def tasaRegion():
         tasas.append(round(tasa,1))
     return tasas,listaRegionesAnalisis
     
+def graficoTasas():
+    datos = tasaRegion()
+    tasas = datos[0]
+    regiones = datos[1]
+    mayortasa = max(tasas)
+    menortasa = min(tasas)
+    regionMayor = regiones[tasas.index(mayortasa)]
+    regionMenor = regiones[tasas.index(menortasa)]
+    plt.ion()
+    plt.bar(regiones,tasas)
+    plt.title("Regiones con mayor tasa de contagio y menor tasa de contagios", fontsize= 25)
+    plt.xticks(rotation = 90)
+    plt.tight_layout(pad=1, w_pad= 0, h_pad=0)
+    plt.margins(y= 0.2)
+    plt.annotate('Mayor tasa',fontsize= 15, xy=(regionMayor, mayortasa), xytext=(regionMayor, mayortasa+1000),
+                arrowprops=dict(facecolor='red', shrink=0.04),
+                )
+    plt.annotate('Menor tasa', fontsize= 15, xy=(regionMenor, menortasa), xytext=(regionMenor, menortasa+3000),
+                arrowprops=dict(facecolor='red', shrink=0.04),
+                )
+    mng = plt.get_current_fig_manager()    
+    plt.show()
+
+def Analisis(graficoY,tipoDeContagio):
+    if tipoDeContagio == "no acumulativo":
+
+        mediana = graficoY.sort()
+        mediana = graficoY[len(graficoY)//2]
+        promedio = 0
+
+        for valor in graficoY:
+            promedio += valor
+
+        promedio = round(promedio/len(graficoY),2)
+        mayorDato = max(graficoY)
+        mayorDato = graficoY[graficoY.index(mayorDato)]
+
+        modaDato = 0
+        contador = 0
+        for dato in graficoY:
+            repit = graficoY.count(dato)    
+            if repit > contador and repit > 1:
+                contador = repit
+                modaDato = dato
+        if modaDato == 0:
+            return mediana,promedio,mayorDato
+        else:
+            return mediana,promedio,mayorDato,modaDato
+
+    elif tipoDeContagio == "acumulativo":
+        mediana = graficoY.sort()
+        mediana = graficoY[len(graficoY)//2]
+        promedio = 0
+
+        for valor in graficoY:
+            promedio += valor
+
+        promedio = round(promedio/len(graficoY),2)
+        print(mediana)
+        print(promedio)
+        return mediana,promedio
+
+def graficoGeneral(graficoY,tipoDeContagio,analisis):
+    x = ["Dia 1","Dia 2","Dia 3","Dia 4","Dia 5","Dia 6","Dia 7"]
+
+    plt.xlabel("Datos cada 3 dias.")
+    plt.ylabel("Contagios "+tipoDeContagio)
+    plt.title("Grafico de contagos "+ tipoDeContagio+" en las ultimas 7 fechas")
+    plt.tight_layout(pad=1, w_pad= 3, h_pad=0)
+    plt.suptitle('Fuente: https://github.com/MinCiencia/Datos-COVID19/tree/master/output/producto1', fontsize=10)
+    if len(analisis) == 3:
+        plt.xlabel("aaaaaaaaaaaaaaaa")
+    else:
+        plt.xlabel("Analisis Grafico: Media: "+str(analisis[0])+"\nMediana: "+str(analisis[1]),color="red",loc="left")
+    mng = plt.get_current_fig_manager()   
+    plt.plot(x,graficoY)
+    plt.show()
+    print(analisis)
+    print(analisis[1])
+
+accion = "0"
+
+TipoNoAcumulado = "Grafico de datos no acumulado"
+TipoAcumulado = "Grafico de datos acumulado"
+
+while accion != "4":
+    print("¿Que desea hacer?")
+    print("(1) filtrar Datos por Comuna")
+    print("(2) filtrar Datos por Region")
+    print("(3) Ver Region con mayor tasa de contagios y menor")
+    print("(4) Salir del programa")
+    accion = input("Ingrese accion: ")
 leer_archivo()
