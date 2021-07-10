@@ -259,4 +259,22 @@ while accion != "4":
         print("(2) Mostrar un gráfico de contagiados acumulativos de la Region")
         print("Los graficos se haran en base a las 7 ultimas fechas")
         graficoAccion = input("Ingrese eleccion: ")
+
+        while graficoAccion not in ["1","2"]:
+            graficoAccion = input("Ingrese eleccion: ")
+
+        if graficoAccion == "1":
+            tipoDeContagio = "no acumulativo"
+            graficoY = datosRegionAcumulado(datos)
+            graficoY = datosGraficoNoAcumuladoRegion(graficoY)
+            analisis = Analisis(graficoY,tipoDeContagio)
+            graficoGeneral(graficoY,tipoDeContagio,analisis)
+        else:
+            tipoDeContagio = "acumulativo"
+            graficoY = datosRegionAcumulado(datos)
+            graficoY.remove(graficoY[0])
+            analisis = Analisis(graficoY,tipoDeContagio)
+            graficoGeneral(graficoY,tipoDeContagio,analisis) 
+    elif accion == "3":
+        graficoTasas()
 leer_archivo()
