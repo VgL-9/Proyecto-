@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
+import math
+import numpy as np
 from numpy import mod, true_divide
+from matplotlib import pyplot as plt
 
 listaDeDatos = []
 def leer_archivo():
@@ -204,4 +207,56 @@ while accion != "4":
     print("(3) Ver Region con mayor tasa de contagios y menor")
     print("(4) Salir del programa")
     accion = input("Ingrese accion: ")
+
+    while accion not in ["1","2","3","4"]:  # Validacion para que el usuario ingrese una opcion valida
+        accion = input("Ingrese accion: ")
+
+    if accion == "1":
+        validacionComuna = listaComunasValidacion()
+        listaComunasUsuario()
+        print("El menu contiene Comuna(Codigo)")
+        comuna = input("Ingrese el nombre de la comuna o su codigo: ")
+
+        while comuna not in validacionComuna:
+            comuna = input("Ingrese el nombre de la comuna o su codigo: ")
+        
+        datos = filtroDatosComuna(comuna)
+
+        print("¿Que desea hacer?")
+        print("(1) Mostrar un gráfico de contagiados no acumulativos de la comuna")
+        print("(2) Mostrar un gráfico de contagiados acumulativos de la comuna")
+        print("Los graficos se haran en base a las 7 ultimas fechas")
+        graficoAccion = input("Ingrese eleccion: ")
+
+        while graficoAccion not in ["1","2"]:
+            graficoAccion = input("Ingrese eleccion: ")  
+
+        if graficoAccion == "1":
+            tipoDeContagio = "no acumulativo"
+            graficoY = datoComunaNoAcumulado(datos)
+            analisis = Analisis(graficoY,tipoDeContagio)
+            graficoGeneral(graficoY,tipoDeContagio,analisis)
+        else:
+            tipoDeContagio = "acumulativo"
+            datos.remove(datos[0])
+            graficoY = datos
+            analisis = Analisis(graficoY,tipoDeContagio,analisis)           
+            graficoGeneral(graficoY,tipoDeContagio,analisis)
+
+    elif accion == "2":
+        validacionRegion = listaRegionValidacion()
+        listaRegionesUsuario()
+        print("El menu contiene Region[Codigo]")
+        region = input("Ingrese el codigo de region o Nombre: ")
+
+        while region not in validacionRegion:
+            region = input("Ingrese el codigo de region o nombre: ") 
+
+        datos = filtroRegion(region)  
+
+        print("¿Que desea hacer?")
+        print("(1) Mostrar un gráfico de contagiados no acumulativos de la Region")
+        print("(2) Mostrar un gráfico de contagiados acumulativos de la Region")
+        print("Los graficos se haran en base a las 7 ultimas fechas")
+        graficoAccion = input("Ingrese eleccion: ")
 leer_archivo()
