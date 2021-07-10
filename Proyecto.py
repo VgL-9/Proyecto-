@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import math
 import numpy as np
-from numpy import mod, true_divide
 from matplotlib import pyplot as plt
+from numpy import mod, true_divide
 
 listaDeDatos = []
 def leer_archivo():
