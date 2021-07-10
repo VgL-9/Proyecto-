@@ -200,6 +200,8 @@ accion = "0"
 TipoNoAcumulado = "Grafico de datos no acumulado"
 TipoAcumulado = "Grafico de datos acumulado"
 
+leer_archivo()
+
 while accion != "4":
     print("¿Que desea hacer?")
     print("(1) filtrar Datos por Comuna")
@@ -277,4 +279,3 @@ while accion != "4":
             graficoGeneral(graficoY,tipoDeContagio,analisis) 
     elif accion == "3":
         graficoTasas()
-leer_archivo()
