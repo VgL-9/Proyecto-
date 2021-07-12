@@ -1,3 +1,5 @@
+# Vicente Guerrero  21.292.037-1 
+# Salvador Gallardo 21.091.242-8
 import matplotlib.pyplot as plt
 from numpy import mod, true_divide
 listaDeDatos = []
