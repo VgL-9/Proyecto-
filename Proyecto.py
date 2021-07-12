@@ -3,7 +3,7 @@ from numpy import mod, true_divide
 listaDeDatos = []
 def leer_archivo():
     with open("Covid-19.csv","r",encoding="utf-8") as f:    # Abro el archivo en modo de lectura con encoding utf-8 para leer bien los caracteres espaciales
-        for i in f.readlines(): # Recorro cada seldilla del exel
+        for i in f.readlines(): # Recorro cada seldilla del excel
             datos = i.split(",")    #Convierto cada seldilla en una lista
             listaDeDatos.append(datos)  # introduzco la lista creada en la lista de datos
         listaDeDatos.pop(0) # elimino la primera lista ya que esta contiene las regiones
@@ -14,7 +14,7 @@ def listaComunasValidacion():
         if len(i[3])>0: # esta condicion es para eliminar las listas que no tengan codigo de comuna ya que no serian comunas
             listaParaValidacionComunas.append(i[2]) # A la nueva lista le introduzco el dato de la lista en el indice 2 el que seria la comuna
             listaParaValidacionComunas.append(i[3]) # A la nueva lista le introduzco el dato de la lista en el indice 3 el que seria el codigo de region
-    if len(listaParaValidacionComunas)%2 == 0:  # Veo si la lista es par o impar para farle un formato distinto en caso de que sea uno o lo otro
+    if len(listaParaValidacionComunas)%2 == 0:  # Veo si la lista es par o impar para darle un formato distinto en caso de que sea uno o lo otro
         print("/"*69)
         print("/"+" "*25+"Listado de Comunas"+" "*24+"/")
         print("/"+" "*67+"/")
@@ -50,17 +50,17 @@ def datoNoAcumulado(datoFiltrado):    # Aqui ingresa el dato de comuna Acumulado
         listaDatoNoAcumulado.append(int(operacion)) # Guardo en la lista el dato obtenido
     return listaDatoNoAcumulado
 
-def listaRegionUsuario_Validacion():
+def listaRegionUsuario_Validacion(): 
     listaParaValidacionRegion = []
-    for i in listaDeDatos:
-        if i[0] not in listaParaValidacionRegion:
-            listaParaValidacionRegion.append(i[0])
-            listaParaValidacionRegion.append(i[1])
-    if len(listaParaValidacionRegion)%2 == 0:
+    for i in listaDeDatos: # Recorre la lista con los datos
+        if i[0] not in listaParaValidacionRegion: 
+            listaParaValidacionRegion.append(i[0]) # a la lista nueva le introduzco el dato de la lista en el indice 0 que seria la region
+            listaParaValidacionRegion.append(i[1]) # a la lista nueva le introduzco el dato de la lista en el indice 1 que seria el codigo
+    if len(listaParaValidacionRegion)%2 == 0: # Verifico si la lista es par o impar para darle un formato distinto en caso de que sea uno o lo otro
         print("/"*63)
         print("/"+" "*22+"Listado de Comunas"+" "*21+"/")
         print("/"+" "*61+"/")
-        for i in range(0,len(listaParaValidacionRegion)-1,4):
+        for i in range(0,len(listaParaValidacionRegion)-1,4): # si es par recorro cada 4 para imprimir 2 comunas a la vez, cada una junto a su codigo
             espaciosFaltante  = " " * (25-len(listaParaValidacionRegion[i]))
             espaciosFaltante2 = " " * (25-len(listaParaValidacionRegion[i+2]))
             print("/ {}{}[{}] {}{}[{}] /".format(listaParaValidacionRegion[i],espaciosFaltante,listaParaValidacionRegion[i+1]
@@ -78,7 +78,7 @@ def listaRegionUsuario_Validacion():
         # print(f"{listaParaValidacionRegion[i]}[{listaParaValidacionRegion[i+1]}]")
         print("/"+" "*31+"/")
         print("/"*33)
-    return listaParaValidacionRegion
+    return listaParaValidacionRegion # Retorno la lista de validacion para ocuparla
 
 def filtroRegion(region):
     filtrada = []
