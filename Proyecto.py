@@ -51,14 +51,34 @@ def datoNoAcumulado(datoFiltrado):    # Aqui ingresa el dato de comuna Acumulado
     return listaDatoNoAcumulado
 
 def listaRegionUsuario_Validacion():
-  listaParaValidacionRegion = []    
-  for i in listaDeDatos:    # Recorro cada lista de los datos
-    if i[0] not in listaParaValidacionRegion:   # Esto es para eliminar los datos repetidos ya que en los datos se registran de forma repetida algunas cosas
-      listaParaValidacionRegion.append(i[0])
-      listaParaValidacionRegion.append(i[1])
-  for i in range(0,len(listaParaValidacionRegion)-1,2): # Probecho la lista creada para valida y le muestro al usuario cada region con su codigo
-    print(f"{listaParaValidacionRegion[i]}[{listaParaValidacionRegion[i+1]}]")  # Esta avanza de 2 en 2 ya que cada region contaria con el nombre de la region y su codigo
-  return listaParaValidacionRegion                      # Por lo que ocuparia 2 indices para mostrar la region junto a su codigo
+    listaParaValidacionRegion = []
+    for i in listaDeDatos:
+        if i[0] not in listaParaValidacionRegion:
+            listaParaValidacionRegion.append(i[0])
+            listaParaValidacionRegion.append(i[1])
+    if len(listaParaValidacionRegion)%2 == 0:
+        print("/"*63)
+        print("/"+" "*22+"Listado de Comunas"+" "*21+"/")
+        print("/"+" "*61+"/")
+        for i in range(0,len(listaParaValidacionRegion)-1,4):
+            espaciosFaltante  = " " * (25-len(listaParaValidacionRegion[i]))
+            espaciosFaltante2 = " " * (25-len(listaParaValidacionRegion[i+2]))
+            print("/ {}{}[{}] {}{}[{}] /".format(listaParaValidacionRegion[i],espaciosFaltante,listaParaValidacionRegion[i+1]
+            ,listaParaValidacionRegion[i+2],espaciosFaltante2,listaParaValidacionRegion[i+3]))
+        # print(f"{listaParaValidacionRegion[i]}[{listaParaValidacionRegion[i+1]}]")
+        print("/"+" "*61+"/")
+        print("/"*63)
+    else:
+        print("/"*33)
+        print("/"+" "*6+"Listado de Comunas"+" "*7+"/")
+        print("/"+" "*31+"/")
+        for i in range(0,len(listaParaValidacionRegion)-1,2):
+            espaciosFaltante  = " " * (25-len(listaParaValidacionRegion[i]))
+            print("/ {}{}[{}] /".format(listaParaValidacionRegion[i],espaciosFaltante,listaParaValidacionRegion[i+1]))
+        # print(f"{listaParaValidacionRegion[i]}[{listaParaValidacionRegion[i+1]}]")
+        print("/"+" "*31+"/")
+        print("/"*33)
+    return listaParaValidacionRegion
 
 def filtroRegion(region):
     filtrada = []
